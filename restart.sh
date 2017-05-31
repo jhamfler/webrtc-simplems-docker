@@ -1,6 +1,14 @@
 #!/bin/bash
+
 IMAGE="webrtc-simplems"
 CONTAINER="$IMAGE"
+
+# edit this path to point to real certificates
+# right now it copies the unsigned provided ones
+# you could for example put your certificates in <path to webrtc-simplems-docker>/data/certs/ and change the line to
+# DATA=`dirname $(readlink -f "$0")`"/data"
+DATA=`dirname $(readlink -f "$0")`"/$IMAGE/data"
+
 
 printover () {
   printf "\r"
@@ -27,7 +35,7 @@ fi
 docker rm "$CONTAINER" 2>&1>/dev/null && echo '[OK] '"$CONTAINER"' container removed from previous run'
 
 # start
-docker run --name="$CONTAINER" -d -p 1337:1337 "$IMAGE" 1>/dev/null
+docker run --name="$CONTAINER" -d -p 1337:1337 -v "$DATA":/data "$IMAGE" 1>/dev/null
 if docker ps | grep -q "$CONTAINER"
 then
   echo '[OK] '"starting $CONTAINER"
