@@ -10,6 +10,6 @@ then
 	exit 1
 fi
 
-git clone https://github.com/fmalcher/simple-websocket-server.git
+git clone https://github.com/fmalcher/webrtc-simplems.git
 
 docker build -t $image .
